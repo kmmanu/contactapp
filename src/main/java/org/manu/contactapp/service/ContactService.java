@@ -1,6 +1,3 @@
-/**
- * Created on Dec 21, 2011
- */
 package org.manu.contactapp.service;
 
 import java.util.List;

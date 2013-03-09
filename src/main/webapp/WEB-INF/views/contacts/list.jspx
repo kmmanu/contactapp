@@ -15,11 +15,9 @@
 	<spring:message code="label_contact_birth_date"
 		var="labelContactBirthDate" />
 	<spring:message code="label_contact_list" var="labelContactList" />
-	<head>
-		<spring:theme code="styleSheet" var="app_css"/>
-		<spring:url value="/${app_css}" var="app_css_url" />
-		<LINK rel="stylesheet" type="text/css" media="screen" href="${app_css_url}"/>
-	</head>
+
+	<spring:url value="/contacts" var="showContactUrl"/>
+
 	<H1>${labelContactList}</H1>
 
 	<c:if test="${not empty contacts}">
@@ -32,11 +30,11 @@
 				</TR>
 			</THEAD>
 			<TBODY>
-				<c:forEach items="${contacts}" var="contacts">
+				<c:forEach items="${contacts}" var="contact">
 					<tr>
-						<TD>${contacts.firstName}</TD>
-						<TD>${contacts.lastName}</TD>
-						<TD><joda:format value="${contacts.birthDate}"
+						<TD><a href="${showContactUrl}/${contact.id}">${contact.firstName}</a></TD>
+						<TD>${contact.lastName}</TD>
+						<TD><joda:format value="${contact.birthDate}"
 								pattern="dd-MM-yyyy" /></TD>
 					</tr>
 				</c:forEach>

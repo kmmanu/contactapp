@@ -5,6 +5,8 @@ import java.util.List;
 import org.manu.contactapp.domain.Contact;
 import org.manu.contactapp.repository.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +36,11 @@ public class ContactServiceImpl implements ContactService {
 	@Override
 	public Contact save(final Contact contact) {
 		return this.contactRepository.save(contact);
+	}
+
+	@Override
+	public Page<Contact> findAllByPage(Pageable pageable) {
+		return contactRepository.findAll(pageable);
 	}
 
 }

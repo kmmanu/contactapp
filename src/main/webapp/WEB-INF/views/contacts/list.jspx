@@ -18,9 +18,56 @@
 
 	<spring:url value="/contacts" var="showContactUrl"/>
 
+	<SCRIPT type="text/javascript">
+	$(function() {
+		$("#list").jqGrid({
+			url:'${showContactUrl}/listgrid',
+			datatype: 'json',
+			mtype : 'GET',
+			colNames : ['${labelContactFirstName}', '${labelContactLastName}', '${labelContactBirthDate}'],
+			colModel : [
+			            {name : 'firstName', index : 'firstName', width : 150},
+			            {name : 'lastName', index : 'lastName', width : 100},
+			            {name : 'birthDateString', index : 'birthDate', width : 100},
+			           ],
+			jsonReader : {
+				root : "contactData",
+				page : "currentPage",
+				total : "totalPages",
+				records : "totalRecords",
+				repeatitems : false,
+				id : "id"
+			},
+			pager : '#pager',
+			rowNum : 10,
+			rowList : [10,20,30],
+			sortname: 'firstName',
+			sortorder : 'asc',
+			viewrecords : true,
+			gridview : true,
+			height : 250,
+			width : 500,
+			caption : '${labelContactList}',
+			onSelectRow : function(id) {
+				document.location.href = "${showContactUrl}/" + id;
+			}
+		});
+	});
+	</SCRIPT>
+	
+	<c:if test="${not empty message}">
+		<div id="message" class="${message.type}">${message.message}</div>
+	</c:if>
+	<H2>${labelContactList}</H2>
+	<div id="Cont_list">
+		<TABLE id="list"><tr><td/></tr></TABLE>
+	</div>
+	<DIV id="pager"></DIV>
+	
+	
 	<H1>${labelContactList}</H1>
 
-	<c:if test="${not empty contacts}">
+	<!-- <c:if test="${not empty contacts}">
 		<TABLE>
 			<THEAD>
 				<TR>
@@ -40,5 +87,5 @@
 				</c:forEach>
 			</TBODY>
 		</TABLE>
-	</c:if>
+	</c:if>-->
 </div>

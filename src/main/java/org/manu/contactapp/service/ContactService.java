@@ -3,6 +3,8 @@ package org.manu.contactapp.service;
 import java.util.List;
 
 import org.manu.contactapp.domain.Contact;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface ContactService {
 
@@ -12,6 +14,6 @@ public interface ContactService {
 
 	public Contact save(Contact contact);
 
-	// public Page<Contact> findAllByPage(Pageable pageable);
+	public Page<Contact> findAllByPage(Pageable pageable);
 
 }

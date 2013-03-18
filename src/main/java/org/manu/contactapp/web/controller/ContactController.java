@@ -5,10 +5,13 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import java.util.List;
 import java.util.Locale;
 
+import javassist.expr.NewArray;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.manu.contactapp.domain.Contact;
+import org.manu.contactapp.web.form.ContactGrid;
 import org.manu.contactapp.service.ContactService;
 import org.manu.contactapp.web.form.Message;
 import org.manu.contactapp.web.util.UrlUtil;
@@ -16,14 +19,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.common.collect.Lists;
 @Controller
 @RequestMapping("/contacts")
 public class ContactController {
@@ -116,11 +124,56 @@ public class ContactController {
 		redirectAttributes.addFlashAttribute(
 				"message",
 				new Message("success", this.messageSource.getMessage(
-						"conact_save_success", new Object[] {}, locale)));
+						"contact_save_success", new Object[] {}, locale)));
 		this.logger.info("Contact id = " + contact.getId());
 		this.contactService.save(contact);
 		return "redirect:/contacts/"
 				+ UrlUtil.encodeUrlPathSegment(contact.getId().toString(),
 						httpServletRequest);
+	}
+	
+	@RequestMapping(value="/listgrid", method=RequestMethod.GET, produces="application/json")
+	public ContactGrid listGrid(@RequestParam(value="page", required=false) Integer page, 
+			@RequestParam(value="rows", required=false) Integer rows,
+			@RequestParam(value="sidx", required=false) String sortBy,
+			@RequestParam(value="sord", required=false) String order){
+		Sort sort = null;
+		String orderBy = sortBy;
+		
+		if("birthDateString".equals(orderBy)){
+			orderBy = "birthDate";
+		}
+		
+		if(orderBy != null && order != null){
+			if("desc".equals(orderBy)){
+				sort = new Sort(Sort.Direction.DESC, orderBy);
+			}else{
+				sort = new Sort(Sort.Direction.ASC, orderBy);
+			}
+		}
+		
+		// Page request for current page.
+		// Page no. for spring data jpa starts with 0. for jqgrid its 1.
+		PageRequest pageRequest = null;
+		if(sort != null){
+			pageRequest = new PageRequest(page -1,rows, sort);
+		}else{
+			pageRequest = new PageRequest(page, rows);
+		}
+		
+		Page<Contact> contactPage = contactService.findAllByPage(pageRequest);
+		
+		ContactGrid contactGrid = createContactGrid(contactPage);
+		
+		return contactGrid;
+	}
+
+	private ContactGrid createContactGrid(Page<Contact> contactPage) {
+		ContactGrid contactGrid = new ContactGrid();
+		contactGrid.setCurrentPage(contactPage.getNumber() +1);
+		contactGrid.setTotalPages(contactPage.getTotalPages());
+		contactGrid.setTotalRecords(contactPage.getTotalElements());
+		contactGrid.setContactData(Lists.newArrayList(contactPage.iterator()));
+		return contactGrid;
 	}
 }

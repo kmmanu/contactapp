@@ -17,6 +17,14 @@
     
     <spring:eval expression="contact.id == null ? labelContactNew:labelContactUpdate" var="formTitle"/>
 
+	<script type="text/javascript">
+    $(function(){ 
+        $('#birthDate').datepicker({ 
+            dateFormat: 'yy-mm-dd',
+            changeYear: true
+        });
+    });
+    </script>
 
     <h1>${formTitle}</h1>
 

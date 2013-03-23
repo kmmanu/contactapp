@@ -63,9 +63,6 @@
 		<TABLE id="list"><tr><td/></tr></TABLE>
 	</div>
 	<DIV id="pager"></DIV>
-	
-	
-	<H1>${labelContactList}</H1>
 
 	<!-- <c:if test="${not empty contacts}">
 		<TABLE>

@@ -1,36 +1,46 @@
 package org.manu.contactapp.web.form;
+
 import java.util.List;
 
 import org.manu.contactapp.domain.Contact;
+
 public class ContactGrid {
+
 	private int totalPages;
 	private int currentPage;
 	private long totalRecords;
 	private List<Contact> contactData;
-	
+
 	public int getTotalPages() {
-		return totalPages;
+		return this.totalPages;
 	}
-	public void setTotalPages(int totalPages) {
+
+	public void setTotalPages(final int totalPages) {
 		this.totalPages = totalPages;
 	}
+
 	public int getCurrentPage() {
-		return currentPage;
+		return this.currentPage;
 	}
-	public void setCurrentPage(int currentPage) {
+
+	public void setCurrentPage(final int currentPage) {
 		this.currentPage = currentPage;
 	}
+
 	public long getTotalRecords() {
-		return totalRecords;
+		return this.totalRecords;
 	}
-	public void setTotalRecords(long totalRecords) {
+
+	public void setTotalRecords(final long totalRecords) {
 		this.totalRecords = totalRecords;
 	}
+
 	public List<Contact> getContactData() {
-		return contactData;
+		return this.contactData;
 	}
-	public void setContactData(List<Contact> contactData) {
+
+	public void setContactData(final List<Contact> contactData) {
 		this.contactData = contactData;
 	}
-	
+
 }

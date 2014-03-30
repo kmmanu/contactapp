@@ -75,5 +75,15 @@
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+	
+		<servlet>
+		<servlet-name>isAliveService</servlet-name>
+		<servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>isAliveService</servlet-name>
+		<url-pattern>/monitoring/isAlive</url-pattern>
+	</servlet-mapping>
 
 </web-app>

@@ -76,7 +76,25 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	
-		<servlet>
+	<!-- RESTful servlet -->
+	<servlet>
+		<servlet-name>restful</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/restful-context.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+		
+	<servlet-mapping>
+		<servlet-name>restful</servlet-name>
+		<url-pattern>/restful/*</url-pattern>
+	</servlet-mapping>
+
+
+	<!-- Monitoring -->
+	<servlet>
 		<servlet-name>isAliveService</servlet-name>
 		<servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
 	</servlet>
@@ -85,5 +103,4 @@
 		<servlet-name>isAliveService</servlet-name>
 		<url-pattern>/monitoring/isAlive</url-pattern>
 	</servlet-mapping>
-
 </web-app>
